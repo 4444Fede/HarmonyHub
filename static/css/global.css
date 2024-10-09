@@ -68,14 +68,12 @@ button:hover {
     font-size: 16px;
 }
 
-/* General container */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Fondo con gradiente */
 .gradient-bg {
     background: var(--gradient-bg);
     color: var(--white);

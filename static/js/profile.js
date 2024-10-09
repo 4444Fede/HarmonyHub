@@ -7,7 +7,6 @@ const relationshipSelect = document.getElementById("relationship-select");
 
 let selectedGenres = [];
 
-// Cargar el nombre de usuario y géneros desde localStorage
 window.onload = function() {
     const userName = localStorage.getItem("userName") || "Usuario";
     userNameElement.textContent = userName;
@@ -15,7 +14,6 @@ window.onload = function() {
     updateSelectedGenresDisplay();
 };
 
-// Actualizar la visualización de géneros seleccionados
 function updateSelectedGenresDisplay() {
     selectedGenresContainer.innerHTML = '';
     selectedGenres.forEach(genre => {
@@ -33,26 +31,23 @@ function updateSelectedGenresDisplay() {
     });
 }
 
-// Añadir o eliminar géneros seleccionados
 genreSelect.addEventListener("change", (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
     selectedGenres = selectedOptions;
     updateSelectedGenresDisplay();
 });
 
-// Remover un género
 function removeGenre(genre) {
     selectedGenres = selectedGenres.filter(g => g !== genre);
     updateSelectedGenresDisplay();
 }
 
-// Guardar cambios
 saveProfileBtn.addEventListener("click", () => {
     const sexuality = sexualitySelect.value;
     const relationship = relationshipSelect.value;
 
     localStorage.setItem("selectedGenres", JSON.stringify(selectedGenres));
-    localStorage.setItem("userName", userNameElement.textContent); // O manejar el nombre según sea necesario
+    localStorage.setItem("userName", userNameElement.textContent); 
     localStorage.setItem("sexuality", sexuality);
     localStorage.setItem("relationship", relationship);
 
