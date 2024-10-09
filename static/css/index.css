@@ -1,0 +1,21 @@
+.index-page {
+    background-color: var(--pink-light);
+    color: var(--white);
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.index-page h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.index-page p {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HarmonyHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>HarmonyHub</h1>
+        <nav>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('match') }}">Find Matches</a>
+        </nav>
+    </header>
+    <div class="index-page">
+        <h2>Welcome to HarmonyHub!</h2>
+        <p>
+            Discover a world of musical connections. At HarmonyHub, we believe that music is a language that transcends borders, connects souls, and unites people. 
+            Whether you're into rock, pop, classical, or jazz, you can find people who share your tastes, discover new music, and create lasting connections based on the rhythm of life.
+        </p>
+    </div>
+</body>
+</html>

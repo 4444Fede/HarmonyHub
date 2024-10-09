@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches - HarmonyHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/match.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>HarmonyHub</h1>
+        <nav>
+            <a href="{{ url_for('profile') }}">Profile</a>
+        </nav>
+    </header>
+    <main style="display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
+        <h1>Your matches</h1>
+        <div id="matches-container" class="matches-container"></div>
+    </main>
+    <script src="{{ url_for('static', filename='js/matches.js') }}"></script>
+</body>
+</html>
