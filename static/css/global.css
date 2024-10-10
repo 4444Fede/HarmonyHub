@@ -12,10 +12,11 @@
 /* Estilos globales */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: var(--background-light);
+    background: linear-gradient(to right, #ff7eb3, #ff4b4b);
     color: var(--grey-dark);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6, a, p, span {
@@ -23,6 +24,7 @@ h1, h2, h3, h4, h5, h6, a, p, span {
 }
 
 a {
+    color: #fff;
     text-decoration: none;
     font-weight: bold;
 }
@@ -48,14 +50,14 @@ button:hover {
 
 /* Header */
 .header {
-    background-color: var(--pink-violet);
-    color: var(--white);
-    padding: 15px 0;
+    background-color: #ff4b4b;
+    color: white;
+    padding: 20px;
+    text-align: center;
     height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
 }
 
 .header h1 {

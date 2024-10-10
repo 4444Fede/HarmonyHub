@@ -4,17 +4,6 @@ body {
     color: #333;
 }
 
-.header {
-    background-color: #ff4b4b;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .nav-list {
     list-style: none;
     padding: 0;
@@ -28,13 +17,17 @@ body {
     font-weight: bold;
 }
 
+main{
+    padding: 0 10%;
+}
+
 .profile-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: linear-gradient(to right, #ff7eb3, #ff4b4b);
+    width: 80%;
+    margin: 20px 0 0;
+    padding: 25px;
+    background-color: var(--pink-light);
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .profile-section {

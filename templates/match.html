@@ -11,10 +11,11 @@
     <header class="header">
         <h1>HarmonyHub</h1>
         <nav>
+            <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('profile') }}">Profile</a>
         </nav>
     </header>
-    <main style="display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
+    <main>
         <h1>Your matches</h1>
         <div id="matches-container" class="matches-container"></div>
     </main>

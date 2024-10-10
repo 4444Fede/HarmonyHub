@@ -1,16 +1,18 @@
-.index-page {
-    background-color: var(--pink-light);
+main {
     color: var(--white);
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 50px 20px;
 }
 
-.index-page h2 {
+main h2 {
     font-size: 32px;
     margin-bottom: 20px;
 }
 
-.index-page p {
+main p {
     font-size: 18px;
     line-height: 1.6;
     max-width: 800px;

@@ -1,3 +1,14 @@
+main{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    margin-top: 25px;
+}
+
+main h1{
+    color: #fff;
+}
+
 .matches-container {
     display: flex;
     flex-direction: column;
@@ -5,7 +16,7 @@
     width: 80%;
     align-items: center;
     text-align: center;
-    background-color: var(--background-dark);
+    background-color: var(--pink-light);
     gap: 15px;
     padding: 20px 0;
     border-radius: 40px;
@@ -15,10 +26,10 @@
 .match-item {
     background-color: var(--background-light);
     color: var(--pink-light);
-    padding: 20px;
+    padding: 20px 10px;
     border-radius: 8px;
     text-align: center;
-    min-width: 40%;
+    min-width: 65%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,4 +41,3 @@
     color: var(--pink-light);
     margin-bottom: 10px;
 }
-
