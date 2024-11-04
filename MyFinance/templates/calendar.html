@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap"
+      rel="stylesheet"
+    />
+    <link type="text/css" rel="stylesheet" href="static/styles.css" />
+    <title>My Finance</title>
+  </head>
+  <div class="user-panel">
+    <h3>Are you sure to delete the item?</h3>
+    <div class="panel-buttons">
+      <button>No</button>
+      <button>Yes</button>
+    </div>
+  </div>
+  <body>
+    <header>
+      <nav>
+        <button class="sign-out" style="position: absolute; left: 20px">
+          <i class="fa-solid fa-right-from-bracket"> </i>
+        </button>
+        <span>My Finance</span>
+        <span style="position: absolute; right: 20px"
+          >{{ session.username }}</span
+        >
+      </nav>
+    </header>
+    <main>
+      <div class="days-info">
+        <div class="info">
+          <div class="info-top">
+            <button id="previous-btn">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h1 class="month-title"></h1>
+            <button id="next-btn">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="info-main">
+            <ul id="info-items">
+              <li class="item-title"></li>
+            </ul>
+            <div class="info-inputs-container income">
+              <div class="info-change">
+                <button class="info-btn-change">
+                  Income<i
+                    class="fa-solid fa-chevron-down info-btn-change-icon"
+                  ></i>
+                </button>
+                <div class="info-change-panel">
+                  <ul class="info-displayed-change-panel display-down-panel">
+                    <li class="change-option">Income</li>
+                    <li class="change-option">Expenses</li>
+                    <li class="change-option">Notes</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="info-inputs">
+                <input
+                  class="add-input"
+                  id="add-number-input"
+                  placeholder="Income"
+                  type="input"
+                  maxlength="11"
+                />
+                <input
+                  id="add-description-input"
+                  class="add-input"
+                  placeholder="Description"
+                  type="input"
+                />
+                <button id="add-btn">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="calendar">
+          <div class="month">
+            <div class="month-container">
+              <div class="calendar-days">
+                <div class="weekdays">
+                  <div>D</div>
+                  <div>L</div>
+                  <div>M</div>
+                  <div>X</div>
+                  <div>J</div>
+                  <div>V</div>
+                  <div>S</div>
+                </div>
+                <div class="days" id="days"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="month-info">
+        <h2></h2>
+        <div>
+          <div class="month-main-info">
+            <h3>Month statistics</h3>
+            <div class="month-performance">
+              <span>Performance</span>
+              <div class="performance">
+                <i class="fa-solid fa-angle-up"></i>
+                <span></span>
+              </div>
+            </div>
+            <span class="month-income">Income: 0</span>
+            <span class="month-expenses">Expenses: 0</span>
+            <span class="month-average">Average: 0</span>
+            <h3>Movements list</h3>
+            <ul class="month-list-items"></ul>
+          </div>
+          <div class="graphic-container">
+            <canvas id="average-graphic" width="100%"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/b89abaf60d.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      var data = {{notas|tojson|safe}} // Es necesario esto por que Flask solo te permite mandar parametros al template y no al script, pero al ponerlo antes del otro script, lo podes usar!
+    </script>
+    <script src="static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </body>
+</html>
