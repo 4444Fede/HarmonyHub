@@ -56,6 +56,16 @@
             <button id="save-profile-btn">Guardar cambios</button>
         </div>
     </main>
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/b89abaf60d.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      var data = {{notas|tojson|safe}} // Es necesario esto por que Flask solo te permite mandar parametros al template y no al script, pero al ponerlo antes del otro script, lo podes usar!
+    </script>
+    <script src="static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </body>
 </html>
