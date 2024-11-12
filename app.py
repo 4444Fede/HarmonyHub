@@ -1,34 +1,141 @@
-from flask import Flask, render_template, jsonify, redirect, request, session
-import datetime
+from flask import Flask, render_template, jsonify, redirect, request, session, url_for
 import mysql.connector
 import os
 
 app = Flask(__name__)
-
+app.secret_key = os.urandom(24).hex()
 
 def get_db_connection():
-	return mysql.connector.connect(
-		host="192.168.30.69",
-		user="g8-elsublime",
-		password="10chegadorcA",
-		database="g8-elsublime",
-		collation="utf8mb3_general_ci",
-	)
+    return mysql.connector.connect(
+        host="192.168.30.69",
+        user="g8-elsublime",
+        password="10chegadorcA",
+        database="g8-elsublime",
+        collation="utf8mb3_general_ci",
+    )
 
+@app.route('/showSignUp')
+def showSignUp():
+    return render_template('signup.html')
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/signUp', methods=['POST'])
+def signUp():
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    correo = request.form['correo']
+    contrasenia = request.form['contrasenia']
+
+    if nombre and apellido and correo and contrasenia:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        try:
+            cursor.execute("INSERT INTO usuario (Nombre, Apellido, Correo, Contrasenia) VALUES (%s, %s, %s, %s)",
+                           (nombre, apellido, correo, contrasenia))
+            connection.commit()
+            return {'success': 'El usuario fue creado'}
+        except mysql.connector.Error as err:
+            return {'error': f'Error al crear el usuario: {err}'}
+        finally:
+            cursor.close()
+            connection.close()
+    else:
+        return {'error': 'Todos los campos son requeridos'}
+
+@app.route('/showSignIn')
+def showSignIn():
+    return render_template('signin.html')
+
+@app.route('/signIn', methods=['POST'])
+def signIn():
+    correo = request.form['correo']
+    contrasenia = request.form['contrasenia']
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM usuario WHERE Correo = %s AND Contrasenia = %s", (correo, contrasenia))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+
+    if user:
+        session['userId'] = user['IdUsuario']
+        session['nombre'] = user['Nombre']
+        return redirect(url_for('profile'))
+    else:
+        return {'error': 'Correo o contraseña incorrectos'}
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    if 'userId' not in session:
+        return redirect(url_for('showSignIn'))
+    
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    # Verificar si el perfil está completo
+    cursor.execute("SELECT * FROM usuario WHERE IdUsuario = %s", (session['userId'],))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    
+    # Campos a validar como necesarios para un perfil completo
+    required_fields = ['FechaDeNacimiento', 'Sexo', 'FotoDePerfil']
+    
+    # Si alguno de estos campos está vacío, se considera incompleto
+    if any(user[field] is None or user[field] == '' for field in required_fields):
+        return render_template('profile.html', nombre=session.get('nombre'), message="Por favor, completa tu perfil.")
+    
+    # Perfil completo, mostrar la página normal de perfil
+    return render_template('profile.html', nombre=session.get('nombre'))
 
 @app.route('/match')
 def match():
+    if 'userId' not in session:
+        return redirect(url_for('showSignIn'))
+    
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    # Verificar si el perfil está completo
+    cursor.execute("SELECT * FROM usuario WHERE IdUsuario = %s", (session['userId'],))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    
+    # Si el perfil no está completo, redirigir al perfil o mostrar un mensaje
+    required_fields = ['FechaDeNacimiento', 'Sexo', 'FotoDePerfil']
+    if any(user[field] is None or user[field] == '' for field in required_fields):
+        return redirect(url_for('profile'))
+    
+    # Si el perfil está completo, permitir acceso a la página de 'match'
     return render_template('match.html')
 
 
+@app.route('/api/gustos')
+def api_gustos():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Obtener todas las columnas de la tabla `gustos_musicales`
+    cursor.execute("SHOW COLUMNS FROM gustos_musicales;")
+    columns = [column[0] for column in cursor.fetchall()]
+
+    # Excluir las columnas `idGustos` y `gustos_IdUsuario`
+    selected_columns = [col for col in columns if col not in ('idGustos', 'gustos_IdUsuario')]
+
+    # Crear el query dinámico
+    query = f"SELECT {', '.join(selected_columns)} FROM gustos_musicales;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    # Convertir los resultados a una lista de diccionarios para enviar como JSON
+    gustos = [dict(zip(selected_columns, row)) for row in result]
+
+    return jsonify(gustos)
+	
 app.run(debug=True)
 
 

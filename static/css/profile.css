@@ -21,52 +21,28 @@ main{
     padding: 0 10%;
 }
 
-.profile-container {
-    width: 80%;
-    margin: 20px 0 0;
-    padding: 25px;
-    background-color: var(--pink-light);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.profile-section {
-    margin-bottom: 20px;
-}
-
-.profile-section label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-#genre-select {
-    width: 100%;
-    height: 120px;
-}
-
-.genre-selection {
-    position: relative;
-}
-
-#selected-genres {
+#gustos-container {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 10px;
+    gap: 10px;
+    padding: 20px;
+    justify-content: center;
+    max-width: 600px;
+    margin: auto;
 }
 
-.selected-genre {
-    background-color: #ffffff;
-    border: 1px solid #ff4b4b;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin: 5px;
-    display: flex;
-    align-items: center;
-}
-
-.remove-genre {
-    margin-left: 5px;
+.genero-container {
+    background-color: #FF004F; /* Color de fondo para cada género */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    text-align: center;
     cursor: pointer;
-    color: #ff4b4b;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.genero-container:hover {
+    background-color: #FF3366; /* Cambio de color al hacer hover */
+    transform: scale(1.05);
 }
