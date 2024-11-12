@@ -1,0 +1,48 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-list li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main{
+    padding: 0 10%;
+}
+
+#gustos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    justify-content: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+.genero-container {
+    background-color: #FF004F; /* Color de fondo para cada género */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.genero-container:hover {
+    background-color: #FF3366; /* Cambio de color al hacer hover */
+    transform: scale(1.05);
+}
