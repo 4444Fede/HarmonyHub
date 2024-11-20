@@ -10,12 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 generoElement.className = 'genero-container';
                 generoElement.innerText = genero.replace('Afinidad_', '');
 
-                // Crear una caja de selección con un slider para cada género
                 const slider = document.createElement('input');
                 slider.type = 'range';
                 slider.min = 0;
                 slider.max = 10;
-                slider.value = gustos[0][genero]; // Usar el valor de afinidad actual si está disponible
+                slider.value = gustos[0][genero];
                 slider.className = 'gustos-slider';
                 slider.id = genero;
 
