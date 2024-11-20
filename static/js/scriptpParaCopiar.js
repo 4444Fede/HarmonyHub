@@ -28,8 +28,6 @@ function hideChangePanel() {
   changeBtn.children[0].classList.remove("rotate");
   changePanel.children[0].removeAttribute("style");
 }
-
-// let items = {
 //   2024: {
 //     7: {
 //       10: [

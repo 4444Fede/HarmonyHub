@@ -17,55 +17,25 @@
     </header>
     <main>
         <div class="profile-container">
-            <h2>Bienvenido, <span id="user-name"></span></h2>
+            <h2>Bienvenido, <span id="user-name">{{ nombre }}</span></h2>
 
             <div class="profile-section">
-                <label for="genre-select">Selecciona tus géneros favoritos:</label>
-                <div class="genre-selection">
-                    <select id="genre-select" multiple>
-                        <option value="Rock">Rock</option>
-                        <option value="Pop">Pop</option>
-                        <option value="Hip-Hop">Hip-Hop</option>
-                        <option value="Jazz">Jazz</option>
-                        <option value="Electrónica">Electrónica</option>
-                        <option value="Clásica">Clásica</option>
-                        <option value="Reggae">Reggae</option>
-                    </select>
-                    <div id="selected-genres"></div>
-                </div>
-            </div>
-
-            <div class="profile-section">
-                <label for="sexuality-select">Sexualidad:</label>
-                <select id="sexuality-select">
-                    <option value="Heterosexual">Heterosexual</option>
-                    <option value="Homosexual">Homosexual</option>
-                    <option value="Bisexual">Bisexual</option>
-                </select>
+                <label for="gustos-container">Selecciona tus géneros favoritos:</label>
+                <div id="gustos-container" class="gustos-container"></div>
             </div>
 
             <div class="profile-section">
                 <label for="relationship-select">Tipo de relación:</label>
                 <select id="relationship-select">
                     <option value="Amistad">Amistad</option>
-                    <option value="Relación seria">Relación seria</option>
-                    <option value="Relación abierta">Relación abierta</option>
+                    <option value="Relación seria">Amorosa</option>
                 </select>
             </div>
 
             <button id="save-profile-btn">Guardar cambios</button>
         </div>
     </main>
-        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script
-      src="https://kit.fontawesome.com/b89abaf60d.js"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      var data = {{notas|tojson|safe}} // Es necesario esto por que Flask solo te permite mandar parametros al template y no al script, pero al ponerlo antes del otro script, lo podes usar!
-    </script>
-    <script src="static/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
     <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </body>
 </html>

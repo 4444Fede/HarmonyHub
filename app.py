@@ -135,7 +135,32 @@ def api_gustos():
     gustos = [dict(zip(selected_columns, row)) for row in result]
 
     return jsonify(gustos)
-	
+
+@app.route('/api/guardar_gustos', methods=['POST'])
+def guardar_gustos():
+    if 'userId' not in session:
+        return {'error': 'No se ha iniciado sesión.'}, 401
+
+    data = request.get_json()
+    gustos = data.get('gustos')
+
+    if not gustos:
+        return {'error': 'No se proporcionaron gustos.'}, 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    for genero, afinidad in gustos.items():
+        # Usar un query de actualización (UPDATE) para guardar el valor de afinidad
+        query = f"UPDATE gustos_musicales SET {genero} = %s WHERE gustos_IdUsuario = %s"
+        cursor.execute(query, (afinidad, session['userId']))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    return {'success': 'Gustos guardados correctamente.'}
+
 app.run(debug=True)
 
 
