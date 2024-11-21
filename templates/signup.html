@@ -3,77 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign UP</title>
-    <link href="static/signup.css" rel="stylesheet" />
+    <title>Sign Up</title>
+    <link href="../static/css/auth.css" rel="stylesheet" />
   </head>
-  <div class="user-panel">
-    <h3 id="user-message"></h3>
-    <div class="panel-buttons">
-      <button>Ok</button>
-    </div>
-  </div>
   <body>
-    <header>
+    <header class="header">
+      <h1>HarmonyHub</h1>
       <nav>
-        <a href="/" class="nav-link calendar"
-          ><i class="fa-solid fa-calendar-days"></i><span>Calendar</span></a
-        >
-        <span class="title">My Finance</span>
-        <div class="navegation">
-          <a href="/showSignUp" class="nav-link active" aria-current="page"
-            >Sign Up</a
-          >
-          <a href="/signin" class="nav-link">Sign In</a>
-        </div>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('match') }}">Find Matches</a>
       </nav>
     </header>
-    <div class="container">
-      <div class="bg-light">
-        <h1 class="display-4">Register</h1>
-        <form class="form-signin" id="signUpForm">
-          <div class="form-group">
-            <label for="inputName">Name</label>
-            <input
-              type="text"
-              name="inputName"
-              id="inputName"
-              class="form-control"
-              placeholder="Name"
-              required
-              autofocus
-            />
-          </div>
-          <div class="form-group">
-            <label for="inputEmail">Email address</label>
-            <input
-              type="email"
-              name="inputEmail"
-              id="inputEmail"
-              class="form-control"
-              placeholder="Email address"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="inputPassword">Password</label>
-            <input
-              type="password"
-              name="inputPassword"
-              id="inputPassword"
-              class="form-control"
-              placeholder="Password"
-              required
-            />
-          </div>
-          <button id="btnSignUp" class="btn" type="submit">Sign up</button>
-        </form>
+    <main>
+      <div class="container">
+        <div class="bg-light">
+          <h1 class="display-4">Register</h1>
+          <form class="form-signin" id="signUpForm" action="/signUp" method="POST">
+            <div class="form-group">
+              <label for="inputName">Name</label>
+              <input
+                type="text"
+                name="nombre"
+                id="inputName"
+                class="form-control"
+                placeholder="Name"
+                required
+                autofocus
+              />
+            </div>
+            <div class="form-group">
+              <label for="inputLastName">Last Name</label>
+              <input
+                type="text"
+                name="apellido"
+                id="inputLastName"
+                class="form-control"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">Email address</label>
+              <input
+                type="email"
+                name="correo"
+                id="inputEmail"
+                class="form-control"
+                placeholder="Email address"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <input
+                type="password"
+                name="contrasenia"
+                id="inputPassword"
+                class="form-control"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <button id="btnSignUp" class="btn" type="submit">Sign up</button>
+          </form>
+          <p>Already have an account? <a href="{{ url_for('show_sign_in') }}">Sign In</a></p>
+        </div>
       </div>
-    </div>
-
+    </main>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-      const userPanel = document.querySelector(".user-panel");
-
       $(document).ready(function () {
         $("#signUpForm").on("submit", function (event) {
           event.preventDefault(); // Prevent default form submission
@@ -82,33 +80,15 @@
             data: $(this).serialize(),
             type: "POST",
             success: function (response) {
-              console.log(response);
-
               if (response.error) {
-                showUserPanel(response.error);
+                alert(response.error);
               } else if (response.success) {
-                window.location.href = "/";
+                window.location.href = "/signIn";
               }
             },
           });
         });
       });
-      function showUserPanel(info) {
-        const header = document.querySelector("header");
-        $("#user-message").text(info);
-        header.style.pointerEvents = "none";
-
-        userPanel.classList.add("fade-up");
-        let buttons = userPanel.querySelector(".panel-buttons");
-        buttons.children[0].addEventListener("click", function () {
-          userPanel.classList.remove("fade-up");
-          header.style.pointerEvents = "auto";
-        });
-      }
     </script>
-    <script
-      src="https://kit.fontawesome.com/b89abaf60d.js"
-      crossorigin="anonymous"
-    ></script>
   </body>
 </html>
