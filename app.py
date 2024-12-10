@@ -49,22 +49,51 @@ def process_sign_up():
     contrasenia = request.form.get('contrasenia')
 
     if not all([nombre, apellido, correo, contrasenia]):
-        return jsonify({'error': 'Todos los campos son requeridos'})
+        return jsonify({'error': 'Todos los campos son requeridos'}), 400
 
     connection = get_db_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
     try:
+        # Verificar si el correo ya existe
+        cursor.execute("SELECT * FROM usuario WHERE Correo = %s", (correo,))
+        existing_user = cursor.fetchone()
+        if existing_user:
+            return jsonify({'error': 'El correo ya está registrado'}), 400
+
+        # Crear el nuevo usuario
         cursor.execute(
             "INSERT INTO usuario (Nombre, Apellido, Correo, Contrasenia) VALUES (%s, %s, %s, %s)",
             (nombre, apellido, correo, contrasenia),
         )
         connection.commit()
-        return jsonify({'success': 'El usuario fue creado exitosamente'})
+        user_id = cursor.lastrowid
+
+        # Crear entrada en gustos musicales con valores iniciales
+        cursor.execute(
+            """
+            INSERT INTO gustos_musicales (
+                gustos_IdUsuario, Afinidad_Rock, Afinidad_Pop, Afinidad_Hip_Hop,
+                Afinidad_Jazz, Afinidad_Blues, Afinidad_Reggae, Afinidad_Salsa,
+                Afinidad_Country, Afinidad_Electronica, Afinidad_Funk, Afinidad_R_B,
+                Afinidad_Metal, Afinidad_Clasica, Afinidad_Punk, Afinidad_Ska
+            ) VALUES (%s, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+            """,
+            (user_id,),
+        )
+        connection.commit()
+
+        # Iniciar sesión automáticamente
+        session['userId'] = user_id
+        session['nombre'] = nombre
+
+        return jsonify({'success': 'Usuario registrado y sesión iniciada'}), 200
     except mysql.connector.Error as err:
-        return jsonify({'error': f'Error al crear el usuario: {err}'})
+        return jsonify({'error': f'Error al crear el usuario: {err}'}), 500
     finally:
         cursor.close()
         connection.close()
+
+
 
 # Mostrar el formulario de inicio de sesión (Sign In)
 @app.route('/signIn', methods=['GET'])
@@ -149,7 +178,7 @@ def obtener_gustos():
     cursor = connection.cursor(dictionary=True)
     try:
         # Actualiza la consulta para usar la tabla 'gustos_musicales'
-        cursor.execute("SELECT * FROM gustos_musicales WHERE IdUsuario = %s", (session['userId'],))
+        cursor.execute("SELECT * FROM gustos_musicales WHERE gustos_IdUsuario = %s", (session['userId'],))
         gustos = cursor.fetchall()
     finally:
         cursor.close()

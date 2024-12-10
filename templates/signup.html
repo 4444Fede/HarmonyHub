@@ -74,21 +74,36 @@
     <script>
       $(document).ready(function () {
         $("#signUpForm").on("submit", function (event) {
-          event.preventDefault(); // Prevent default form submission
+          event.preventDefault(); // Evitar el envío predeterminado del formulario
+    
+          // Deshabilitar el botón mientras se procesa la solicitud
+          $("#btnSignUp").prop("disabled", true).text("Processing...");
+    
           $.ajax({
             url: "/signUp",
             data: $(this).serialize(),
             type: "POST",
             success: function (response) {
-              if (response.error) {
+              if (response.success) {
+                window.location.href = "/profile";
+              } else if (response.error) {
+                // Mostrar mensaje de error si hay un problema
                 alert(response.error);
-              } else if (response.success) {
-                window.location.href = "/signIn";
               }
+            },
+            error: function (xhr, status, error) {
+              // Mostrar mensaje de error genérico si ocurre un problema con el servidor
+              alert("An unexpected error occurred. Please try again.");
+              console.error("Error:", status, error);
+            },
+            complete: function () {
+              // Rehabilitar el botón después de la solicitud
+              $("#btnSignUp").prop("disabled", false).text("Sign up");
             },
           });
         });
       });
     </script>
+    
   </body>
 </html>
