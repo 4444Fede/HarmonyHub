@@ -190,6 +190,37 @@ def obtener_gustos():
     # Aquí puedes asegurarte de devolver las claves que deseas, por ejemplo:
     return jsonify(gustos)
 
+@app.route('/api/guardar_gustos', methods=['POST'])
+def guardar_gustos():
+    if 'userId' not in session:
+        return jsonify({'error': 'Usuario no autenticado'}), 401
+
+    gustos_data = request.json.get('gustos', {})
+    if not gustos_data:
+        return jsonify({'error': 'No se enviaron datos de gustos'}), 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    try:
+        # Construir la consulta SQL dinámica para actualizar los gustos
+        update_query = """
+        UPDATE gustos_musicales
+        SET {}
+        WHERE gustos_IdUsuario = %s
+        """.format(
+            ', '.join(f"{key} = %s" for key in gustos_data.keys())
+        )
+
+        # Ejecutar la consulta con los valores de los gustos
+        cursor.execute(update_query, list(gustos_data.values()) + [session['userId']])
+        connection.commit()
+
+        return jsonify({'success': 'Gustos guardados correctamente'}), 200
+    except mysql.connector.Error as err:
+        return jsonify({'error': f'Error al guardar los gustos: {err}'}), 500
+    finally:
+        cursor.close()
+        connection.close()
 
 
 

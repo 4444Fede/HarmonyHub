@@ -32,6 +32,24 @@ main{
 }
 
 .genero-container {
+    flex: 1 1 calc(25% - 10px); /* 4 cajas por fila */
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .genero-container {
+        flex: 1 1 calc(50% - 10px); /* 2 cajas por fila en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .genero-container {
+        flex: 1 1 100%; /* 1 caja por fila en pantallas muy pequeñas */
+    }
+}
+
+
+.genero-container {
     background-color: #FF004F; /* Color de fondo para cada género */
     color: white;
     padding: 10px 15px;

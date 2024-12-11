@@ -13,12 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const gustosContainer = document.getElementById('gustos-container');
             if (gustos.length > 0) {
                 // Suponiendo que los gustos tienen claves como 'Afinidad_Rock', 'Afinidad_Jazz', etc.
-                const generos = Object.keys(gustos[0]).filter(key => key.startsWith('Afinidad_')); // Filtra solo las claves que son afinidades
+                const generos = Object.keys(gustos[0]).filter(key => key.startsWith('Afinidad_'));
 
                 generos.forEach(genero => {
                     const generoElement = document.createElement('div');
                     generoElement.className = 'genero-container';
-                    generoElement.innerText = genero.replace('Afinidad_', '').replace(/_/g, ' '); // Mostrar el nombre del género sin 'Afinidad_'
 
                     const slider = document.createElement('input');
                     slider.type = 'range';
@@ -27,14 +26,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     slider.value = gustos[0][genero];
                     slider.className = 'gustos-slider';
                     slider.id = genero;
+                    slider.setAttribute('list', 'tickmarks');
+
+                    const datalist = document.createElement('datalist');
+                    datalist.id = 'tickmarks';
+                    for (let i = 0; i <= 10; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        if (i === 0 || i === 5 || i === 10) {
+                            option.setAttribute('label', `${i}`);
+                        }
+                        datalist.appendChild(option);
+                    }
 
                     const label = document.createElement('label');
                     label.setAttribute('for', genero);
                     label.innerText = `¿Cuánto te gusta ${genero.replace('Afinidad_', '').replace(/_/g, ' ')}?`;
 
-                    // Crear un contenedor con el slider
                     generoElement.appendChild(label);
                     generoElement.appendChild(slider);
+                    generoElement.appendChild(datalist);
 
                     gustosContainer.appendChild(generoElement);
                 });
@@ -48,10 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const sliders = document.querySelectorAll('.gustos-slider');
 
         sliders.forEach(slider => {
-            gustos[slider.id] = slider.value; // Almacena el valor de cada slider por su ID
+            gustos[slider.id] = slider.value;
         });
 
-        // Hacer la petición para guardar los gustos
         fetch('/api/guardar_gustos', {
             method: 'POST',
             headers: {
@@ -67,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             console.log('Gustos guardados con éxito:', data);
-            // Manejar la respuesta, mostrar un mensaje o redirigir
         })
         .catch(error => console.error('Error al guardar los gustos:', error));
     });
