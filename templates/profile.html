@@ -11,10 +11,11 @@
     <header class="header">
         <h1>HarmonyHub</h1>
         <nav>
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('match') }}">Find Matches</a>
+                <a href="{{ url_for('match') }}">Find Matches</a>
+                <a href="{{ url_for('logout') }}">Log Out</a>
         </nav>
     </header>
+    
     <main>
         <div class="profile-container">
             <h2>Bienvenido, <span id="user-name">{{ nombre }}</span></h2>
@@ -22,14 +23,6 @@
             <div class="profile-section">
                 <label for="gustos-container">Selecciona tus géneros favoritos:</label>
                 <div id="gustos-container" class="gustos-container"></div>
-            </div>
-
-            <div class="profile-section">
-                <label for="relationship-select">Tipo de relación:</label>
-                <select id="relationship-select">
-                    <option value="Amistad">Amistad</option>
-                    <option value="Relación seria">Amorosa</option>
-                </select>
             </div>
 
             <button id="save-profile-btn">Guardar cambios</button>

@@ -6,19 +6,37 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24).hex()
 
 # Función para obtener una conexión a la base de datos
+# def get_db_connection():
+#     return mysql.connector.connect(
+#         host="192.168.50.44",
+#         user="g8-elsublime",
+#         password="10chegadorcA",
+#         database="g8-elsublime",
+#         collation="utf8mb3_general_ci",
+#     )
+
 def get_db_connection():
     return mysql.connector.connect(
-        host="192.168.50.44",
-        user="g8-elsublime",
-        password="10chegadorcA",
+        host="localhost",
+        user="root",
+        password="",  # Sin contraseña por defecto
         database="g8-elsublime",
-        collation="utf8mb3_general_ci",
+        collation="utf8_general_ci",
     )
 
 # Ruta base redirige al formulario de Sign Up
 @app.route('/')
 def index():
-    return redirect(url_for('show_sign_up'))
+    return redirect(url_for('show_sign_in'))
+
+# Ruta para cerrar sesión
+@app.route('/logout', methods=['GET'])
+def logout():
+    # Limpiar los datos de la sesión
+    session.clear()
+    # Redirigir al formulario de inicio de sesión
+    return redirect(url_for('show_sign_in'))
+
 
 # Mostrar el formulario de registro (Sign Up)
 @app.route('/signUp', methods=['GET'])
@@ -149,6 +167,33 @@ def profile():
             )
         return render_template('profile.html', nombre=session['nombre'])
     return redirect(url_for('show_sign_in'))
+
+@app.route('/api/perfiles', methods=['GET'])
+def obtener_perfiles():
+    if 'userId' not in session:
+        return jsonify({'error': 'Usuario no autenticado'}), 401
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    try:
+        # Obtener todos los usuarios y sus afinidades
+        cursor.execute("""
+            SELECT u.Nombre, 
+                   gm.Afinidad_Rock, gm.Afinidad_Pop, gm.Afinidad_Metal, gm.Afinidad_Clasica,
+                   gm.Afinidad_Blues, gm.Afinidad_Country, gm.Afinidad_Electronica, gm.Afinidad_Funk,
+                   gm.Afinidad_Hip_Hop, gm.Afinidad_Jazz, gm.Afinidad_Punk, gm.Afinidad_R_B, 
+                   gm.Afinidad_Reggae, gm.Afinidad_Salsa, gm.Afinidad_Ska
+            FROM usuario u
+            JOIN gustos_musicales gm ON u.IdUsuario = gm.gustos_IdUsuario
+            WHERE u.IdUsuario != %s
+        """, (session['userId'],))
+        perfiles = cursor.fetchall()
+    finally:
+        cursor.close()
+        connection.close()
+
+    return jsonify(perfiles)
+
 
 # Página de búsqueda de matches
 @app.route('/match', methods=['GET'])
